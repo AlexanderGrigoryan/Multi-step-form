@@ -1,8 +1,20 @@
 import styled from "styled-components";
 import GlobalStyles from "./components/GlobalStyles";
 import { Helmet, HelmetProvider } from "react-helmet-async";
+import { Route, Routes, useLocation } from "react-router";
+import PersonalInfo from "./pages/PersonalInfo";
+import Plan from "./pages/Plan";
+import Addons from "./pages/Addons";
+import Finish from "./pages/Finish";
+import Pagination from "./components/Pagination";
+import { useState } from "react";
 
 function App() {
+  const [activeButton, setActiveButton] = useState<boolean>(true);
+
+  const location = useLocation();
+  const pathname = location.pathname;
+
   return (
     <>
       <GlobalStyles />
@@ -14,7 +26,21 @@ function App() {
           />
         </Helmet>
       </HelmetProvider>
-      <MainContainer></MainContainer>
+      <MainContainer>
+        <Pagination
+          activeButton={activeButton}
+          setActiveButton={setActiveButton}
+          pathname={pathname}
+        />
+        <Content>
+          <Routes>
+            <Route path="/" element={<PersonalInfo />} />
+            <Route path="/plan" element={<Plan />} />
+            <Route path="/addons" element={<Addons />} />
+            <Route path="/finish" element={<Finish />} />
+          </Routes>
+        </Content>
+      </MainContainer>
     </>
   );
 }
@@ -22,3 +48,9 @@ function App() {
 export default App;
 
 const MainContainer = styled.main``;
+
+const Content = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;

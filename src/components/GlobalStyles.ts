@@ -11,6 +11,7 @@ body {
     width: 100vw;
     min-width: 100vh;
     font-family: 'Ubuntu', sans-serif;
+    background: #EFF5FF;
 }
 `
 
