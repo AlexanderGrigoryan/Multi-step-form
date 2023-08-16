@@ -1,15 +1,10 @@
-import React from "react";
-import { useForm } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
 import styled from "styled-components";
+import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { FormTypes } from "../types";
 import { yupResolver } from "@hookform/resolvers/yup";
 import schema from "../schema";
-import { Link } from "react-router-dom";
-
-interface FormTypes {
-  name: string;
-  email: string;
-  phoneNumber: number;
-}
 
 interface PersonalInfoProps {
   pathname: string;
@@ -22,18 +17,23 @@ function PersonalInfo(props: PersonalInfoProps) {
     register,
     handleSubmit,
     watch,
-    reset,
     formState: { errors },
   } = useForm<FormTypes>({
     resolver: yupResolver(schema),
   });
+
+  const navigate = useNavigate();
+
+  const onSubmit: SubmitHandler<FormTypes> = (data) => {
+    navigate("/plan");
+  };
 
   return (
     <Container>
       <Content>
         <Title>Personal info</Title>
         <Text>Please provide your name, email address, and phone number.</Text>
-        <FormContainer>
+        <FormContainer onSubmit={handleSubmit(onSubmit)}>
           <Name>
             <Label htmlFor="name">Name</Label>
             <NameInput
@@ -42,33 +42,36 @@ function PersonalInfo(props: PersonalInfoProps) {
               placeholder="e.g. Stephen King"
               {...register("name")}
             />
+            <ErrorMessage>{errors?.name && errors.name.message}</ErrorMessage>a
           </Name>
           <Email>
-            <Label>Email Address</Label>
+            <Label htmlFor="email">Email Address</Label>
             <EmailInput
               type="email"
               id="email"
               placeholder="e.g. stephenking@lorem.com"
               {...register("email")}
             />
+            <ErrorMessage>{errors.email && errors.email.message}</ErrorMessage>
           </Email>
           <PhoneNumber>
-            <Label>Phone Number</Label>
+            <Label htmlFor="phoneNumber">Phone Number</Label>
             <PhoneNumberInput
               type="number"
               id="phoneNumber"
               placeholder="e.g. +1 234 567 890"
               {...register("phoneNumber")}
             />
+            <ErrorMessage>
+              {errors.phoneNumber && errors.phoneNumber.message}
+            </ErrorMessage>
           </PhoneNumber>
+          <NextStepContainer>
+            {pathname !== "/" ? <BackLink to="/">Go Back</BackLink> : null}
+            <NextButton type="submit">Next Step</NextButton>
+          </NextStepContainer>
         </FormContainer>
       </Content>
-      <NextStepContainer>
-        {pathname !== "/" ? <BackLink to="/">Go Back</BackLink> : null}
-        <NextLink to="/plan">
-          <NextButton>Next Step</NextButton>
-        </NextLink>
-      </NextStepContainer>
     </Container>
   );
 }
@@ -121,6 +124,7 @@ const Name = styled.div`
   display: flex;
   flex-direction: column;
   row-gap: 3px;
+  position: relative;
 `;
 
 const NameInput = styled.input`
@@ -138,7 +142,25 @@ const EmailInput = styled(NameInput)``;
 
 const PhoneNumber = styled(Name)``;
 
-const PhoneNumberInput = styled(NameInput)``;
+const PhoneNumberInput = styled(NameInput)`
+  -webkit-appearance: none;
+  -moz-appearance: textfield;
+  appearance: none;
+
+  &::-webkit-inner-spin-button,
+  &::-webkit-outer-spin-button {
+    display: none;
+  }
+`;
+
+const ErrorMessage = styled.p`
+  font-size: 12px;
+  font-weight: 700;
+  color: #ee374a;
+  position: absolute;
+  top: -2px;
+  right: 0;
+`;
 
 const NextStepContainer = styled.div`
   width: 375px;
@@ -161,12 +183,6 @@ const BackLink = styled(Link)`
   text-decoration: none;
 `;
 
-const NextLink = styled(Link)`
-  position: absolute;
-  top: 16px;
-  right: 16px;
-`;
-
 const NextButton = styled.button`
   width: 97px;
   height: 40px;
@@ -176,5 +192,8 @@ const NextButton = styled.button`
   background: #022959;
   font-size: 14px;
   font-weight: 500;
+  position: absolute;
+  top: 16px;
+  right: 16px;
   color: #ffffff;
 `;

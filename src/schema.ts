@@ -1,10 +1,9 @@
 import * as yup from "yup"
 
-const schema = yup.object({
-    name: yup.string().required(),
-    email: yup.string().email().required(),
-    phoneNumber: yup.number().required(),
-    
+const schema = yup.object().shape({
+    name: yup.string().required("This field is required").matches(/^[A-Za-z\s]*$/, "Wrong formats, letters only"),
+    email: yup.string().email().required("This field is required"),
+    phoneNumber: yup.number().required("This field is required").typeError("This field is required"),
 })
 
 export default schema
