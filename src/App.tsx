@@ -8,6 +8,7 @@ import Addons from "./pages/Addons";
 import Finish from "./pages/Finish";
 import Pagination from "./components/Pagination";
 import { useState } from "react";
+import ThankYou from "./pages/ThankYou";
 
 function App() {
   const [activeButton, setActiveButton] = useState<boolean>(true);
@@ -34,10 +35,11 @@ function App() {
         />
         <Content>
           <Routes>
-            <Route path="/" element={<PersonalInfo />} />
+            <Route path="/" element={<PersonalInfo pathname={pathname} />} />
             <Route path="/plan" element={<Plan />} />
             <Route path="/addons" element={<Addons />} />
-            <Route path="/finish" element={<Finish />} />
+            <Route path="/finish" element={<Finish pathname={pathname} />} />
+            <Route path="/thankyou" element={<ThankYou />} />
           </Routes>
         </Content>
       </MainContainer>
@@ -47,10 +49,16 @@ function App() {
 
 export default App;
 
-const MainContainer = styled.main``;
+const MainContainer = styled.main`
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+`;
 
 const Content = styled.div`
   display: flex;
   justify-content: center;
-  align-items: center;
+  margin: -75px;
+  width: 375px;
+  height: 695px;
 `;
