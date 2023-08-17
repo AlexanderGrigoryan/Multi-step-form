@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { FormTypes } from "../types";
 import { yupResolver } from "@hookform/resolvers/yup";
 import schema from "../schema";
+import { useEffect } from "react";
 
 interface PersonalInfoProps {
   pathname: string;
@@ -17,15 +18,34 @@ function PersonalInfo(props: PersonalInfoProps) {
     register,
     handleSubmit,
     watch,
+    setValue,
+    getValues,
     formState: { errors },
   } = useForm<FormTypes>({
     resolver: yupResolver(schema),
   });
+  useEffect(() => {
+    const savedData = localStorage.getItem("formData");
+    console.log("Saved data:", savedData);
+
+    if (savedData) {
+      try {
+        const parsedData = JSON.parse(savedData) as FormTypes;
+        Object.keys(parsedData).forEach((key) => {
+          setValue(key as keyof FormTypes, parsedData[key]);
+        });
+      } catch (error) {
+        console.error("Error parsing saved data:", error);
+      }
+    }
+  }, []);
 
   const navigate = useNavigate();
 
   const onSubmit: SubmitHandler<FormTypes> = (data) => {
     navigate("/plan");
+    localStorage.setItem("formData", JSON.stringify(data));
+    console.log("data saved:", data);
   };
 
   return (
@@ -42,7 +62,7 @@ function PersonalInfo(props: PersonalInfoProps) {
               placeholder="e.g. Stephen King"
               {...register("name")}
             />
-            <ErrorMessage>{errors?.name && errors.name.message}</ErrorMessage>a
+            <ErrorMessage>{errors?.name && errors.name.message}</ErrorMessage>
           </Name>
           <Email>
             <Label htmlFor="email">Email Address</Label>
