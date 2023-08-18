@@ -6,9 +6,14 @@ import ProIcon from "../assets/icon-pro.svg";
 import Toggle from "../components/Toggle";
 import { useEffect, useState } from "react";
 
-function Plan() {
-  const [isChecked, setIsChecked] = useState(false);
-  const [chosenPlan, setChosenPlan] = useState<number>(0);
+interface PlanProps {
+  isChecked: boolean;
+  setIsChecked: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+function Plan(props: PlanProps) {
+  const { isChecked, setIsChecked } = props;
+  const [chosenPlan, setChosenPlan] = useState<string>("");
   const [isActive, setIsActive] = useState<boolean>(false);
 
   console.log(chosenPlan);
@@ -65,20 +70,14 @@ function Plan() {
                   key={index}
                   isActive={activeStates[index]}
                   onClick={() => {
-                    if (item.categoryName === "Arcade" && !isChecked) {
-                      setChosenPlan(9);
-                    } else if (item.categoryName === "Arcade" && isChecked) {
-                      setChosenPlan(90);
-                    } else if (item.categoryName === "Advanced" && !isChecked) {
-                      setChosenPlan(12);
-                    } else if (item.categoryName === "Advanced" && isChecked) {
-                      setChosenPlan(120);
-                    } else if (item.categoryName === "Pro" && !isChecked) {
-                      setChosenPlan(15);
+                    if (item.categoryName === "Arcade") {
+                      setChosenPlan("Arcade");
+                    } else if (item.categoryName === "Advanced") {
+                      setChosenPlan("Advanced");
                     } else {
-                      setChosenPlan(150);
+                      setChosenPlan("Pro");
                     }
-                    
+
                     const newActiveStates = Array(planCategories.length).fill(
                       false
                     );
@@ -99,7 +98,11 @@ function Plan() {
               );
             })}
           </Buttons>
-          <Toggle checked={isChecked} setChecked={setIsChecked} />
+          <Toggle
+            checked={isChecked}
+            setChecked={setIsChecked}
+            chosenPlan={chosenPlan}
+          />
         </ChoosePlan>
       </Content>
       <NextStepContainer>

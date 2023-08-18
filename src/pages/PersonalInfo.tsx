@@ -6,6 +6,7 @@ import { FormTypes } from "../types";
 import { yupResolver } from "@hookform/resolvers/yup";
 import schema from "../schema";
 import { useEffect } from "react";
+import { useFormStore } from "../stores/useFormStore";
 
 interface PersonalInfoProps {
   pathname: string;
@@ -24,28 +25,39 @@ function PersonalInfo(props: PersonalInfoProps) {
   } = useForm<FormTypes>({
     resolver: yupResolver(schema),
   });
-  useEffect(() => {
-    const savedData = localStorage.getItem("formData");
-    console.log("Saved data:", savedData);
+  // useEffect(() => {
+  //   const savedData = localStorage.getItem("formData");
+  //   console.log("Saved data:", savedData);
 
-    if (savedData) {
-      try {
-        const parsedData = JSON.parse(savedData) as FormTypes;
-        Object.keys(parsedData).forEach((key) => {
-          setValue(key as keyof FormTypes, parsedData[key]);
-        });
-      } catch (error) {
-        console.error("Error parsing saved data:", error);
-      }
-    }
-  }, []);
+  //   if (savedData) {
+  //     try {
+  //       const parsedData = JSON.parse(savedData) as FormTypes;
+  //       Object.keys(parsedData).forEach((key) => {
+  //         setValue(key as keyof FormTypes, parsedData[key]);
+  //       });
+  //     } catch (error) {
+  //       console.error("Error parsing saved data:", error);
+  //     }
+  //   }
+  // }, []);
+
+  const example = [
+    { name: "Alex", email: "alexis@mail.ru", number: "555434334" },
+  ];
 
   const navigate = useNavigate();
 
+  const [user] = useFormStore((state) => [state.user, state.updateUser]);
+
+  const updateUser = useFormStore((state) => state.updateUser);
+
   const onSubmit: SubmitHandler<FormTypes> = (data) => {
     navigate("/plan");
-    localStorage.setItem("formData", JSON.stringify(data));
-    console.log("data saved:", data);
+    // localStorage.setItem("formData", JSON.stringify(data));
+    // console.log("data saved:", data);
+    updateUser(data);
+
+    console.log(updateUser(example));
   };
 
   return (
@@ -80,10 +92,10 @@ function PersonalInfo(props: PersonalInfoProps) {
               type="number"
               id="phoneNumber"
               placeholder="e.g. +1 234 567 890"
-              {...register("phoneNumber")}
+              {...register("number")}
             />
             <ErrorMessage>
-              {errors.phoneNumber && errors.phoneNumber.message}
+              {errors.number && errors.number.message}
             </ErrorMessage>
           </PhoneNumber>
           <NextStepContainer>

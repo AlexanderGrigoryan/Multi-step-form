@@ -12,7 +12,7 @@ import ThankYou from "./pages/ThankYou";
 
 function App() {
   const [activeButton, setActiveButton] = useState<boolean>(true);
-
+  const [isChecked, setIsChecked] = useState(false);
   const location = useLocation();
   const pathname = location.pathname;
 
@@ -36,8 +36,18 @@ function App() {
         <Content>
           <Routes>
             <Route path="/" element={<PersonalInfo pathname={pathname} />} />
-            <Route path="/plan" element={<Plan />} />
-            <Route path="/addons" element={<Addons />} />
+            <Route
+              path="/plan"
+              element={
+                <Plan isChecked={isChecked} setIsChecked={setIsChecked} />
+              }
+            />
+            <Route
+              path="/addons"
+              element={
+                <Addons isChecked={isChecked} setIsChecked={setIsChecked} />
+              }
+            />
             <Route path="/finish" element={<Finish pathname={pathname} />} />
             <Route path="/thankyou" element={<ThankYou />} />
           </Routes>
