@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import styled, { css } from "styled-components";
+import { useCheckboxStore } from "../stores/useCheckboxStore";
 
 const addonsList = [
   {
@@ -31,33 +31,13 @@ const addonsList = [
 
 interface AddonsProps {
   isChecked: boolean;
-  setIsChecked: React.Dispatch<React.SetStateAction<boolean>>;
+ 
 }
 
 function Addons(props: AddonsProps) {
-  const { isChecked, setIsChecked } = props;
+  const { isChecked} = props;
 
-  const [checkboxStates, setCheckboxStates] = useState<boolean[]>(
-    Array(addonsList.length).fill(false)
-  );
-
-  const handleCheckboxClick = (index: number) => {
-    const newCheckboxStates = [...checkboxStates];
-    newCheckboxStates[index] = !newCheckboxStates[index];
-    setCheckboxStates(newCheckboxStates);
-  };
-
-  useEffect(() => {
-    const savedCheckboxStates = localStorage.getItem("checkboxStates");
-    if (savedCheckboxStates) {
-      setCheckboxStates(JSON.parse(savedCheckboxStates));
-      console.log(savedCheckboxStates);
-    }
-  }, []);
-
-  useEffect(() => {
-    localStorage.setItem("checkboxStates", JSON.stringify(checkboxStates));
-  }, [checkboxStates]);
+  const { checkboxes, toggleCheckbox } = useCheckboxStore();
 
   return (
     <Container>
@@ -67,13 +47,13 @@ function Addons(props: AddonsProps) {
         <AddonsContainer>
           {addonsList.map((item, index) => {
             return (
-              <Addon key={index} checkboxClicked={checkboxStates[index]}>
+              <Addon checkboxClicked={checkboxes[index]} key={index}>
                 <AddonInfo>
                   <ChooseAddon
+                    checked={checkboxes[index]}
                     type="checkbox"
                     id={`track-checkbox-${index}`}
-                    checked={checkboxStates[index]}
-                    onChange={() => handleCheckboxClick(index)}
+                    onChange={() => toggleCheckbox(index)}
                   />
                   <AddonService>
                     <ServiceName>{item.name}</ServiceName>
@@ -156,7 +136,6 @@ const Addon = styled.div(
     justify-content: space-between;
   `
 );
-
 const AddonInfo = styled.div`
   display: flex;
   align-items: center;

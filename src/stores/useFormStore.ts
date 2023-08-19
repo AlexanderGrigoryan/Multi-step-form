@@ -6,8 +6,6 @@ export interface User {
     number: string, 
 }
 
-
-
 interface FormStore {
     user: User
     updateUser: (newUserData: User) => void
@@ -15,7 +13,7 @@ interface FormStore {
 
 }
 
-export const useFormStore = create<FormStore>((set, get) => ({
+export const useFormStore = create<FormStore>((set) => ({
  user: { name: "", email: "", number: "" },
  updateUser: (newUserData: User) =>set({user: newUserData}),
 }));

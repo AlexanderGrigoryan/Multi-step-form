@@ -42,12 +42,7 @@ function App() {
                 <Plan isChecked={isChecked} setIsChecked={setIsChecked} />
               }
             />
-            <Route
-              path="/addons"
-              element={
-                <Addons isChecked={isChecked} setIsChecked={setIsChecked} />
-              }
-            />
+            <Route path="/addons" element={<Addons isChecked={isChecked} />} />
             <Route path="/finish" element={<Finish pathname={pathname} />} />
             <Route path="/thankyou" element={<ThankYou />} />
           </Routes>

@@ -1,25 +1,19 @@
 import {create} from 'zustand';
 
 interface CheckboxState {
-  checkboxes: {
-    checkbox1: boolean;
-    checkbox2: boolean;
-    checkbox3: boolean;
-  };
-  toggleCheckbox: (checkboxName: keyof CheckboxState['checkboxes']) => void;
+  checkboxes: boolean[];
+  toggleCheckbox: (index: number) => void;
 }
 
 export const useCheckboxStore = create<CheckboxState>((set) => ({
-  checkboxes: {
-    checkbox1: false,
-    checkbox2: false,
-    checkbox3: false,
+  checkboxes: [false, false, false],
+  toggleCheckbox: (index) => {
+    set((state) => {
+      const updatedCheckboxes = [...state.checkboxes];
+      updatedCheckboxes[index] = !updatedCheckboxes[index];
+      return { checkboxes: updatedCheckboxes };
+    });
   },
-  toggleCheckbox: (checkboxName) =>
-    set((state) => ({
-      checkboxes: {
-        ...state.checkboxes,
-        [checkboxName]: !state.checkboxes[checkboxName],
-      },
-    })),
 }));
+
+
