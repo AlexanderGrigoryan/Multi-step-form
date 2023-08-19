@@ -4,7 +4,7 @@ import ArcadeIcon from "../assets/icon-arcade.svg";
 import AdvancedIcon from "../assets/icon-advanced.svg";
 import ProIcon from "../assets/icon-pro.svg";
 import Toggle from "../components/Toggle";
-import { useEffect, useState } from "react";
+import useButtonStore from "../stores/useButtonStore";
 
 interface PlanProps {
   isChecked: boolean;
@@ -13,10 +13,7 @@ interface PlanProps {
 
 function Plan(props: PlanProps) {
   const { isChecked, setIsChecked } = props;
-  const [chosenPlan, setChosenPlan] = useState<string>("");
-  const [isActive, setIsActive] = useState<boolean>(false);
 
-  console.log(chosenPlan);
   const planCategories = [
     {
       categoryName: "Arcade",
@@ -44,18 +41,12 @@ function Plan(props: PlanProps) {
     },
   ];
 
-  const [activeStates, setActiveStates] = useState<boolean[]>(
-    Array(planCategories.length).fill(false)
-  );
+  const selectedButton = useButtonStore((state) => state.selectedButton);
+  const setSelectedButton = useButtonStore((state) => state.setSelectedButton);
 
-  useEffect(() => {
-    const storedIndex = localStorage.getItem("chosenButtonIndex");
-    if (storedIndex !== null) {
-      setActiveStates((prevActiveStates) =>
-        prevActiveStates.map((_, index) => index.toString() === storedIndex)
-      );
-    }
-  }, []);
+  const handleButtonClick = (button: string) => {
+    setSelectedButton(button);
+  };
 
   return (
     <Container>
@@ -68,24 +59,8 @@ function Plan(props: PlanProps) {
               return (
                 <Button
                   key={index}
-                  isActive={activeStates[index]}
-                  onClick={() => {
-                    if (item.categoryName === "Arcade") {
-                      setChosenPlan("Arcade");
-                    } else if (item.categoryName === "Advanced") {
-                      setChosenPlan("Advanced");
-                    } else {
-                      setChosenPlan("Pro");
-                    }
-
-                    const newActiveStates = Array(planCategories.length).fill(
-                      false
-                    );
-                    newActiveStates[index] = true;
-                    setActiveStates(newActiveStates);
-
-                    localStorage.setItem("chosenButtonIndex", index.toString());
-                  }}
+                  onClick={() => handleButtonClick(item.categoryName)}
+                  active={selectedButton === item.categoryName}
                 >
                   <CategoryImage src={item.image} />
                   <CategoryInfo>
@@ -98,11 +73,7 @@ function Plan(props: PlanProps) {
               );
             })}
           </Buttons>
-          <Toggle
-            checked={isChecked}
-            setChecked={setIsChecked}
-            chosenPlan={chosenPlan}
-          />
+          <Toggle checked={isChecked} setChecked={setIsChecked} />
         </ChoosePlan>
       </Content>
       <NextStepContainer>
@@ -162,7 +133,7 @@ const Buttons = styled.div`
 `;
 
 interface ButtonProps {
-  isActive: boolean;
+  active: boolean;
 }
 
 const Button = styled.button(
@@ -175,7 +146,7 @@ const Button = styled.button(
     display: flex;
     align-items: center;
     column-gap: 14px;
-    border: ${props.isActive ? "1px solid #483EFF" : "1px solid #d6d9e6"};
+    border: ${props.active ? "1px solid #483EFF" : "1px solid #d6d9e6"};
     background: #ffffff;
   `
 );

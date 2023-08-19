@@ -4,11 +4,10 @@ import styled, { css } from "styled-components";
 interface ToggleProps {
   checked: boolean;
   setChecked: React.Dispatch<React.SetStateAction<boolean>>;
-  chosenPlan: string;
 }
 
 function Toggle(props: ToggleProps) {
-  const { checked, setChecked, chosenPlan } = props;
+  const { checked, setChecked } = props;
 
   const handleToggle = () => {
     setChecked((prevChecked) => !prevChecked);

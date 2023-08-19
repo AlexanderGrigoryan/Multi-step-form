@@ -6,17 +6,17 @@ export interface User {
     number: string, 
 }
 
+
+
 interface FormStore {
-    user: User[]
-    updateUser: (newUserData: User[]) => void
+    user: User
+    updateUser: (newUserData: User) => void
+    
 
 }
 
-
-
 export const useFormStore = create<FormStore>((set, get) => ({
- user: [],
- updateUser: (newUserData: User[]) =>set({user: {...newUserData}})
-
+ user: { name: "", email: "", number: "" },
+ updateUser: (newUserData: User) =>set({user: newUserData}),
 }));
 

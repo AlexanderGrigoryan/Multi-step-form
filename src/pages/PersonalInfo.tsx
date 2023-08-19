@@ -18,46 +18,24 @@ function PersonalInfo(props: PersonalInfoProps) {
   const {
     register,
     handleSubmit,
-    watch,
     setValue,
-    getValues,
     formState: { errors },
   } = useForm<FormTypes>({
     resolver: yupResolver(schema),
   });
-  // useEffect(() => {
-  //   const savedData = localStorage.getItem("formData");
-  //   console.log("Saved data:", savedData);
-
-  //   if (savedData) {
-  //     try {
-  //       const parsedData = JSON.parse(savedData) as FormTypes;
-  //       Object.keys(parsedData).forEach((key) => {
-  //         setValue(key as keyof FormTypes, parsedData[key]);
-  //       });
-  //     } catch (error) {
-  //       console.error("Error parsing saved data:", error);
-  //     }
-  //   }
-  // }, []);
-
-  const example = [
-    { name: "Alex", email: "alexis@mail.ru", number: "555434334" },
-  ];
 
   const navigate = useNavigate();
+  const { user } = useFormStore();
 
-  const [user] = useFormStore((state) => [state.user, state.updateUser]);
-
-  const updateUser = useFormStore((state) => state.updateUser);
+  useEffect(() => {
+    setValue("name", user.name);
+    setValue("email", user.email);
+    setValue("number", user.number);
+  }, [user, setValue]);
 
   const onSubmit: SubmitHandler<FormTypes> = (data) => {
     navigate("/plan");
-    // localStorage.setItem("formData", JSON.stringify(data));
-    // console.log("data saved:", data);
-    updateUser(data);
-
-    console.log(updateUser(example));
+    useFormStore.setState({ user: data });
   };
 
   return (
@@ -87,10 +65,10 @@ function PersonalInfo(props: PersonalInfoProps) {
             <ErrorMessage>{errors.email && errors.email.message}</ErrorMessage>
           </Email>
           <PhoneNumber>
-            <Label htmlFor="phoneNumber">Phone Number</Label>
+            <Label htmlFor="number">Phone Number</Label>
             <PhoneNumberInput
-              type="number"
-              id="phoneNumber"
+              type="text"
+              id="number"
               placeholder="e.g. +1 234 567 890"
               {...register("number")}
             />
