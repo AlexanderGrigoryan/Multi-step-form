@@ -1,12 +1,20 @@
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import useButtonStore from "../stores/useButtonStore";
 
 interface FinishProps {
   pathname: string;
+  isChecked: boolean;
+  setIsChecked: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 function Finish(props: FinishProps) {
-  const { pathname } = props;
+  const { pathname, isChecked, setIsChecked } = props;
+
+  const selectedButton = useButtonStore((state) => state.selectedButton);
+
+  console.log(isChecked);
+
   return (
     <Container>
       <Content>
@@ -15,7 +23,14 @@ function Finish(props: FinishProps) {
         <TotalPrice>
           <ChosenPlan>
             <PlanInfo>
-              <PlanName>Arcade (Monthly)</PlanName>
+              <PlanName>
+                {selectedButton === "Arcade"
+                  ? "Arcade "
+                  : selectedButton === "Advanced"
+                  ? "Advanced "
+                  : "Pro "}
+                {isChecked ? "(Yearly)" : "(Monthly)"}
+              </PlanName>
               <PlanChange to="/plan">Change</PlanChange>
             </PlanInfo>
             <PlanPrice>$9/mo</PlanPrice>

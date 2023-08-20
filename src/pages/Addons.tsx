@@ -31,13 +31,17 @@ const addonsList = [
 
 interface AddonsProps {
   isChecked: boolean;
- 
 }
 
 function Addons(props: AddonsProps) {
-  const { isChecked} = props;
+  const { isChecked } = props;
 
-  const { checkboxes, toggleCheckbox } = useCheckboxStore();
+  const { checkboxes, toggleCheckbox, addToBase } = useCheckboxStore();
+
+  const addonOnChange = (info: number) => {
+    toggleCheckbox(info);
+    // addToBase(info);
+  };
 
   return (
     <Container>
@@ -53,7 +57,7 @@ function Addons(props: AddonsProps) {
                     checked={checkboxes[index]}
                     type="checkbox"
                     id={`track-checkbox-${index}`}
-                    onChange={() => toggleCheckbox(index)}
+                    onChange={() => addonOnChange(index)}
                   />
                   <AddonService>
                     <ServiceName>{item.name}</ServiceName>
