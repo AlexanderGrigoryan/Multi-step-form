@@ -43,7 +43,10 @@ function App() {
               }
             />
             <Route path="/addons" element={<Addons isChecked={isChecked} />} />
-            <Route path="/finish" element={<Finish pathname={pathname} isChecked={isChecked} setIsChecked={setIsChecked} />} />
+            <Route
+              path="/finish"
+              element={<Finish pathname={pathname} isChecked={isChecked} />}
+            />
             <Route path="/thankyou" element={<ThankYou />} />
           </Routes>
         </Content>

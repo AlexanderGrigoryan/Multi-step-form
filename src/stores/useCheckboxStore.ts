@@ -2,14 +2,15 @@ import {create} from 'zustand';
 
 interface CheckboxInfo {
   name: string,
-  price: number
+  monthlyPrice: number,
+  yearlyPrice: number,
 }
 
 interface CheckboxState {
   checkboxes: boolean[];
   infoAboutCheckboxes: CheckboxInfo[]
   toggleCheckbox: (index: number) => void;
-  addToBase: (index: number) => void
+  addToBase: (index: number, name: string, monthlyPrice: number, yearlyPrice: number) => void
 }
 
 export const useCheckboxStore = create<CheckboxState>((set) => ({
@@ -22,13 +23,20 @@ export const useCheckboxStore = create<CheckboxState>((set) => ({
       return { checkboxes: updatedCheckboxes };
     });
   },
-  addToBase: (index) => {
+  addToBase: (index, name, monthlyPrice, yearlyPrice) => {
     set((state) => {
-      // const updatedInfoCheckboxes = [...state.infoAboutCheckboxes];
-      return console.log(111)
-    })
-   
-  }
+      const updatedInfoCheckboxes = [...state.infoAboutCheckboxes];
+      const existingIndex = updatedInfoCheckboxes.findIndex((item) => item && item.name === name);
+
+      if (existingIndex !== -1) {
+        updatedInfoCheckboxes.splice(existingIndex, 1); // Remove the item
+      } else {
+        updatedInfoCheckboxes.push({ name, monthlyPrice, yearlyPrice }); // Add the item
+      }
+
+      return { infoAboutCheckboxes: updatedInfoCheckboxes };
+    });
+  },
 }));
 
 

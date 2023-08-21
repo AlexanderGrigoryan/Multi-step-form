@@ -18,24 +18,24 @@ function Plan(props: PlanProps) {
     {
       categoryName: "Arcade",
       price: {
-        month: "$9/mo",
-        year: "$90/yr",
+        month: 9,
+        year: 90,
       },
       image: ArcadeIcon,
     },
     {
       categoryName: "Advanced",
       price: {
-        month: "$12/mo",
-        year: "$120/yr",
+        month: 12,
+        year: 120,
       },
       image: AdvancedIcon,
     },
     {
       categoryName: "Pro",
       price: {
-        month: "$15/mo",
-        year: "$150/yr",
+        month: 15,
+        year: 150,
       },
       image: ProIcon,
     },
@@ -43,10 +43,35 @@ function Plan(props: PlanProps) {
 
   const selectedButton = useButtonStore((state) => state.selectedButton);
   const setSelectedButton = useButtonStore((state) => state.setSelectedButton);
+  const selectedButtonMonthlyPrice = useButtonStore(
+    (state) => state.selectedButtonMonthlyPrice
+  );
+  const setSelectedButtonMonthlyPrice = useButtonStore(
+    (state) => state.setSelectedButtonMonthlyPrice
+  );
+  const selectedButtonYearlyPrice = useButtonStore(
+    (state) => state.selectedButtonYearlyPrice
+  );
+  const setSelectedButtonYearlyPrice = useButtonStore(
+    (state) => state.setSelectedButtonYearlyPrice
+  );
 
-  const handleButtonClick = (button: string) => {
+  const handleButtonClick = (
+    button: string,
+    monthlyPrice: number,
+    yearlyPrice: number
+  ) => {
     setSelectedButton(button);
+    setSelectedButtonMonthlyPrice(monthlyPrice);
+    setSelectedButtonYearlyPrice(yearlyPrice);
   };
+
+  console.log(
+    "month",
+    selectedButtonMonthlyPrice,
+    "year",
+    selectedButtonYearlyPrice
+  );
 
   return (
     <Container>
@@ -59,14 +84,21 @@ function Plan(props: PlanProps) {
               return (
                 <Button
                   key={index}
-                  onClick={() => handleButtonClick(item.categoryName)}
+                  onClick={() =>
+                    handleButtonClick(
+                      item.categoryName,
+                      item.price.month,
+                      item.price.year
+                    )
+                  }
                   active={selectedButton === item.categoryName}
                 >
                   <CategoryImage src={item.image} />
                   <CategoryInfo>
                     <Category>{item.categoryName}</Category>
                     <CategoryPrice>
-                      {isChecked ? item.price.year : item.price.month}
+                      ${isChecked ? item.price.year : item.price.month}/
+                      {isChecked ? "yr" : "mo"}
                     </CategoryPrice>
                   </CategoryInfo>
                 </Button>

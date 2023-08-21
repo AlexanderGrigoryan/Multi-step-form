@@ -1,33 +1,34 @@
 import { Link } from "react-router-dom";
 import styled, { css } from "styled-components";
 import { useCheckboxStore } from "../stores/useCheckboxStore";
+import addonsList from "../data/addonsList.json";
 
-const addonsList = [
-  {
-    name: "Online service",
-    description: "Access to multiplayer games",
-    price: {
-      month: "+$1/mo",
-      year: "+$10/yr",
-    },
-  },
-  {
-    name: "Larger storage",
-    description: "Extra 1TB of cloud save",
-    price: {
-      month: "+$2/mo",
-      year: "+$20/yr",
-    },
-  },
-  {
-    name: "Customizable profile",
-    description: "Custom theme on your profile",
-    price: {
-      month: "+$2/mo",
-      year: "+$20/yr",
-    },
-  },
-];
+// const addonsList = [
+//   {
+//     name: "Online service",
+//     description: "Access to multiplayer games",
+//     price: {
+//       month: 1,
+//       year: 10,
+//     },
+//   },
+//   {
+//     name: "Larger storage",
+//     description: "Extra 1TB of cloud save",
+//     price: {
+//       month: 2,
+//       year: 20,
+//     },
+//   },
+//   {
+//     name: "Customizable profile",
+//     description: "Custom theme on your profile",
+//     price: {
+//       month: 2,
+//       year: 20,
+//     },
+//   },
+// ];
 
 interface AddonsProps {
   isChecked: boolean;
@@ -38,9 +39,19 @@ function Addons(props: AddonsProps) {
 
   const { checkboxes, toggleCheckbox, addToBase } = useCheckboxStore();
 
-  const addonOnChange = (info: number) => {
-    toggleCheckbox(info);
-    // addToBase(info);
+  const addonOnChange: (
+    index: number,
+    name: string,
+    monthlyPrice: number,
+    yearlyPrice: number
+  ) => void = (
+    index: number,
+    name: string,
+    monthlyPrice: number,
+    yearlyPrice: number
+  ) => {
+    toggleCheckbox(index);
+    addToBase(index, name, monthlyPrice, yearlyPrice);
   };
 
   return (
@@ -57,7 +68,14 @@ function Addons(props: AddonsProps) {
                     checked={checkboxes[index]}
                     type="checkbox"
                     id={`track-checkbox-${index}`}
-                    onChange={() => addonOnChange(index)}
+                    onChange={() =>
+                      addonOnChange(
+                        index,
+                        item.name,
+                        item.price.month,
+                        item.price.year
+                      )
+                    }
                   />
                   <AddonService>
                     <ServiceName>{item.name}</ServiceName>
@@ -65,7 +83,8 @@ function Addons(props: AddonsProps) {
                   </AddonService>
                 </AddonInfo>
                 <ServicePrice>
-                  {isChecked ? item.price.year : item.price.month}
+                  +${isChecked ? item.price.year : item.price.month}/
+                  {isChecked ? "yr" : "mo"}
                 </ServicePrice>
               </Addon>
             );

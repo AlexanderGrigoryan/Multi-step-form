@@ -1,19 +1,45 @@
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import useButtonStore from "../stores/useButtonStore";
+import { useCheckboxStore } from "../stores/useCheckboxStore";
 
 interface FinishProps {
   pathname: string;
   isChecked: boolean;
-  setIsChecked: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 function Finish(props: FinishProps) {
-  const { pathname, isChecked, setIsChecked } = props;
+  const { pathname, isChecked } = props;
 
   const selectedButton = useButtonStore((state) => state.selectedButton);
+  const infoAboutCheckboxes = useCheckboxStore(
+    (state) => state.infoAboutCheckboxes
+  );
+  const monthlyPrice = useButtonStore(
+    (state) => state.selectedButtonMonthlyPrice
+  );
+  const yearlyPrice = useButtonStore(
+    (state) => state.selectedButtonYearlyPrice
+  );
 
-  console.log(isChecked);
+  interface SumPricesType {
+    monthlyPrice: number;
+    yearlyPrice: number;
+  }
+
+  function sumPrices(arr: SumPricesType[]) {
+    let sumMonth = 0;
+    let sumYear = 0;
+
+    arr.forEach((item) => {
+      sumMonth += item.monthlyPrice;
+      sumYear += item.yearlyPrice;
+    });
+
+    return { sumMonth, sumYear };
+  }
+
+  const total = sumPrices(infoAboutCheckboxes);
 
   return (
     <Container>
@@ -33,19 +59,35 @@ function Finish(props: FinishProps) {
               </PlanName>
               <PlanChange to="/plan">Change</PlanChange>
             </PlanInfo>
-            <PlanPrice>$9/mo</PlanPrice>
+            <PlanPrice>
+              ${isChecked ? yearlyPrice : monthlyPrice}/
+              {isChecked ? "yr" : "mo"}
+            </PlanPrice>
           </ChosenPlan>
           <Line></Line>
           <Addons>
-            <Addon>
-              <AddonName>Online service</AddonName>
-              <AddonPrice>+$1/mo</AddonPrice>
-            </Addon>
+            {infoAboutCheckboxes.map((item) => {
+              return (
+                <Addon>
+                  <AddonName>{item.name}</AddonName>
+                  <AddonPrice>
+                    ${isChecked ? item.yearlyPrice : item.monthlyPrice}/
+                    {isChecked ? "yr" : "mo"}
+                  </AddonPrice>
+                </Addon>
+              );
+            })}
           </Addons>
         </TotalPrice>
         <Total>
           <TotalName>Total (per month)</TotalName>
-          <TotalAmount>+$12/mo</TotalAmount>
+          <TotalAmount>
+            $
+            {isChecked
+              ? total.sumYear + yearlyPrice
+              : total.sumMonth + monthlyPrice}
+            /{isChecked ? "yr" : "mo"}
+          </TotalAmount>
         </Total>
       </Content>
       <NextStepContainer>
@@ -93,7 +135,7 @@ const Container = styled.div`
 
 const Content = styled.div`
   width: 343px;
-  height: 365px;
+  height: 385px;
   border-radius: 10px;
   box-shadow: 0px 25px 40px -20px rgba(0, 0, 0, 0.1);
   background: #ffffff;
