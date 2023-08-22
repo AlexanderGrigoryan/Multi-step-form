@@ -108,7 +108,8 @@ const Container = styled.div`
 `;
 
 const Content = styled.div`
-  width: 343px;
+  min-width: 343px;
+  width: 100%;
   height: 383px;
   border-radius: 10px;
   box-shadow: 0px 25px 40px -20px rgba(0, 0, 0, 0.1);
@@ -143,7 +144,8 @@ interface AddonProps {
 
 const Addon = styled.label(
   (props: AddonProps) => css`
-    width: 295px;
+    min-width: 295px;
+    width: 100%;
     height: 62px;
     padding: 21px 16px;
     border-radius: 8px;
@@ -194,7 +196,8 @@ const ServicePrice = styled.p`
 `;
 
 const NextStepContainer = styled.div`
-  width: 375px;
+  min-width: 375px;
+  width: 100%;
   height: 72px;
   padding: 16px;
   display: flex;
@@ -204,7 +207,6 @@ const NextStepContainer = styled.div`
   box-shadow: 0px 25px 40px -20px rgba(0, 0, 0, 0.1);
   position: absolute;
   bottom: 0;
-  left: -16px;
 `;
 
 const BackLink = styled(Link)`

@@ -91,7 +91,8 @@ interface ContentProps {
 
 const Content = styled.div(
   (props: ContentProps) => css`
-    width: 343px;
+    min-width: 343px;
+    width: 100%;
     height: ${props.isChecked ? "566px" : "500px"};
     border-radius: 10px;
     box-shadow: 0px 25px 40px -20px rgba(0, 0, 0, 0.1);
@@ -135,7 +136,8 @@ interface ButtonProps {
 
 const Button = styled.button(
   (props: ButtonProps) => css`
-    width: 295px;
+    min-width: 295px;
+    width: 100%;
     height: ${props.isChecked ? "99px" : "77px"};
     border-radius: 8px;
     cursor: pointer;
@@ -180,7 +182,8 @@ const Discount = styled.p`
 `;
 
 const NextStepContainer = styled.div`
-  width: 375px;
+  min-width: 375px;
+  width: 100%;
   height: 72px;
   padding: 16px;
   display: flex;
@@ -190,7 +193,6 @@ const NextStepContainer = styled.div`
   box-shadow: 0px 25px 40px -20px rgba(0, 0, 0, 0.1);
   position: absolute;
   bottom: 0;
-  left: -16px;
 `;
 
 const BackLink = styled(Link)`

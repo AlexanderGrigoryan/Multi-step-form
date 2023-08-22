@@ -106,7 +106,8 @@ const Container = styled.div`
 `;
 
 const Content = styled.div`
-  width: 343px;
+  min-width: 343px;
+  width: 100%;
   height: 376px;
   border-radius: 10px;
   box-shadow: 0px 25px 40px -20px rgba(0, 0, 0, 0.1);
@@ -148,7 +149,8 @@ const Name = styled.div`
 `;
 
 const NameInput = styled.input`
-  width: 295px;
+  min-width: 295px;
+  width: 100%;
   height: 40px;
   border-radius: 4px;
   padding-left: 16px;
@@ -183,7 +185,8 @@ const ErrorMessage = styled.p`
 `;
 
 const NextStepContainer = styled.div`
-  width: 375px;
+  min-width: 375px;
+  width: 100%;
   height: 72px;
   padding: 16px;
   display: flex;

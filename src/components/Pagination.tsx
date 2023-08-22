@@ -94,7 +94,8 @@ const Container = styled.div`
   background-image: url(${MobileBackground});
   background-repeat: no-repeat;
   background-size: cover;
-  width: 375px;
+  min-width: 375px;
+  width: 100%;
   height: 172px;
   display: flex;
   justify-content: center;

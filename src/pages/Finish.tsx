@@ -115,26 +115,6 @@ function Finish(props: FinishProps) {
 
 export default Finish;
 
-const Total = styled.div`
-  display: flex;
-  justify-content: space-between;
-  padding: 0 16px;
-  margin-top: 24px;
-`;
-
-const TotalName = styled.p`
-  font-size: 14px;
-  line-height: 20px;
-  color: #9699aa;
-`;
-
-const TotalAmount = styled.p`
-  font-size: 16px;
-  font-weight: 700;
-  line-height: 20px;
-  color: #483eff;
-`;
-
 const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -143,7 +123,8 @@ const Container = styled.div`
 `;
 
 const Content = styled.div`
-  width: 343px;
+  min-width: 343px;
+  width: 100%;
   height: 385px;
   border-radius: 10px;
   box-shadow: 0px 25px 40px -20px rgba(0, 0, 0, 0.1);
@@ -235,8 +216,29 @@ const AddonPrice = styled.p`
   color: #022959;
 `;
 
+const Total = styled.div`
+  display: flex;
+  justify-content: space-between;
+  padding: 0 16px;
+  margin-top: 24px;
+`;
+
+const TotalName = styled.p`
+  font-size: 14px;
+  line-height: 20px;
+  color: #9699aa;
+`;
+
+const TotalAmount = styled.p`
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 20px;
+  color: #483eff;
+`;
+
 const NextStepContainer = styled.div`
-  width: 375px;
+  min-width: 375px;
+  width: 100%;
   height: 72px;
   padding: 16px;
   display: flex;
@@ -246,7 +248,6 @@ const NextStepContainer = styled.div`
   box-shadow: 0px 25px 40px -20px rgba(0, 0, 0, 0.1);
   position: absolute;
   bottom: 0;
-  left: -16px;
 `;
 
 const BackLink = styled(Link)`

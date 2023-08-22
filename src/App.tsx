@@ -92,6 +92,7 @@ const Content = styled.div`
   display: flex;
   justify-content: center;
   margin: -75px;
-  width: 375px;
+  min-width: 375px;
+  width: 100%;
   height: 695px;
 `;
