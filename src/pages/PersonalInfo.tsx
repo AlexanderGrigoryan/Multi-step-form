@@ -1,41 +1,39 @@
-import { SubmitHandler, useForm } from "react-hook-form";
+import {
+  FieldErrors,
+  SubmitHandler,
+  UseFormHandleSubmit,
+  UseFormRegister,
+  UseFormSetValue,
+} from "react-hook-form";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { FormTypes } from "../types";
-import { yupResolver } from "@hookform/resolvers/yup";
-import schema from "../schema";
 import { useEffect } from "react";
 import { useFormStore } from "../stores/useFormStore";
 
 interface PersonalInfoProps {
   pathname: string;
+  register: UseFormRegister<FormTypes>;
+  handleSubmit: UseFormHandleSubmit<FormTypes, undefined>;
+  setValue: UseFormSetValue<FormTypes>;
+  errors: FieldErrors<FormTypes>;
 }
 
 function PersonalInfo(props: PersonalInfoProps) {
-  const { pathname } = props;
-
-  const {
-    register,
-    handleSubmit,
-    setValue,
-    formState: { errors },
-  } = useForm<FormTypes>({
-    resolver: yupResolver(schema),
-  });
-
+  const { pathname, register, handleSubmit, setValue, errors } = props;
   const navigate = useNavigate();
-  const { user } = useFormStore();
+  const { user, updateUser } = useFormStore();
 
   useEffect(() => {
     setValue("name", user.name);
     setValue("email", user.email);
     setValue("number", user.number);
-  }, [user, setValue]);
+  }, [setValue]);
 
   const onSubmit: SubmitHandler<FormTypes> = (data) => {
     navigate("/plan");
-    useFormStore.setState({ user: data });
+    updateUser(data);
   };
 
   return (
@@ -50,7 +48,11 @@ function PersonalInfo(props: PersonalInfoProps) {
               type="text"
               id="name"
               placeholder="e.g. Stephen King"
-              {...register("name")}
+              {...register("name", {
+                onChange: (e) => {
+                  updateUser({ ...user, name: e.target.value });
+                },
+              })}
             />
             <ErrorMessage>{errors?.name && errors.name.message}</ErrorMessage>
           </Name>
@@ -60,7 +62,11 @@ function PersonalInfo(props: PersonalInfoProps) {
               type="email"
               id="email"
               placeholder="e.g. stephenking@lorem.com"
-              {...register("email")}
+              {...register("email", {
+                onChange: (e) => {
+                  updateUser({ ...user, email: e.target.value });
+                },
+              })}
             />
             <ErrorMessage>{errors.email && errors.email.message}</ErrorMessage>
           </Email>
@@ -70,7 +76,11 @@ function PersonalInfo(props: PersonalInfoProps) {
               type="text"
               id="number"
               placeholder="e.g. +1 234 567 890"
-              {...register("number")}
+              {...register("number", {
+                onChange: (e) => {
+                  updateUser({ ...user, number: e.target.value });
+                },
+              })}
             />
             <ErrorMessage>
               {errors.number && errors.number.message}

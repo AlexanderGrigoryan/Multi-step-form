@@ -1,10 +1,8 @@
 import { Link } from "react-router-dom";
 import styled, { css } from "styled-components";
-import ArcadeIcon from "../assets/icon-arcade.svg";
-import AdvancedIcon from "../assets/icon-advanced.svg";
-import ProIcon from "../assets/icon-pro.svg";
 import Toggle from "../components/Toggle";
 import useButtonStore from "../stores/useButtonStore";
+import planCategories from "../data/planCategories.json";
 
 interface PlanProps {
   isChecked: boolean;
@@ -14,47 +12,12 @@ interface PlanProps {
 function Plan(props: PlanProps) {
   const { isChecked, setIsChecked } = props;
 
-  const planCategories = [
-    {
-      categoryName: "Arcade",
-      price: {
-        month: 9,
-        year: 90,
-      },
-      image: ArcadeIcon,
-    },
-    {
-      categoryName: "Advanced",
-      price: {
-        month: 12,
-        year: 120,
-      },
-      image: AdvancedIcon,
-    },
-    {
-      categoryName: "Pro",
-      price: {
-        month: 15,
-        year: 150,
-      },
-      image: ProIcon,
-    },
-  ];
-
-  const selectedButton = useButtonStore((state) => state.selectedButton);
-  const setSelectedButton = useButtonStore((state) => state.setSelectedButton);
-  const selectedButtonMonthlyPrice = useButtonStore(
-    (state) => state.selectedButtonMonthlyPrice
-  );
-  const setSelectedButtonMonthlyPrice = useButtonStore(
-    (state) => state.setSelectedButtonMonthlyPrice
-  );
-  const selectedButtonYearlyPrice = useButtonStore(
-    (state) => state.selectedButtonYearlyPrice
-  );
-  const setSelectedButtonYearlyPrice = useButtonStore(
-    (state) => state.setSelectedButtonYearlyPrice
-  );
+  const {
+    selectedButton,
+    setSelectedButton,
+    setSelectedButtonMonthlyPrice,
+    setSelectedButtonYearlyPrice,
+  } = useButtonStore();
 
   const handleButtonClick = (
     button: string,
@@ -66,16 +29,9 @@ function Plan(props: PlanProps) {
     setSelectedButtonYearlyPrice(yearlyPrice);
   };
 
-  console.log(
-    "month",
-    selectedButtonMonthlyPrice,
-    "year",
-    selectedButtonYearlyPrice
-  );
-
   return (
     <Container>
-      <Content>
+      <Content isChecked={isChecked}>
         <Title>Select your plan</Title>
         <Text>You have the option of monthly or yearly billing.</Text>
         <ChoosePlan>
@@ -92,6 +48,7 @@ function Plan(props: PlanProps) {
                     )
                   }
                   active={selectedButton === item.categoryName}
+                  isChecked={isChecked}
                 >
                   <CategoryImage src={item.image} />
                   <CategoryInfo>
@@ -100,6 +57,7 @@ function Plan(props: PlanProps) {
                       ${isChecked ? item.price.year : item.price.month}/
                       {isChecked ? "yr" : "mo"}
                     </CategoryPrice>
+                    {isChecked ? <Discount>2 months free</Discount> : null}
                   </CategoryInfo>
                 </Button>
               );
@@ -127,14 +85,20 @@ const Container = styled.div`
   position: relative;
 `;
 
-const Content = styled.div`
-  width: 343px;
-  height: 500px;
-  border-radius: 10px;
-  box-shadow: 0px 25px 40px -20px rgba(0, 0, 0, 0.1);
-  background: #ffffff;
-  padding: 32px 24px;
-`;
+interface ContentProps {
+  isChecked: boolean;
+}
+
+const Content = styled.div(
+  (props: ContentProps) => css`
+    width: 343px;
+    height: ${props.isChecked ? "566px" : "500px"};
+    border-radius: 10px;
+    box-shadow: 0px 25px 40px -20px rgba(0, 0, 0, 0.1);
+    background: #ffffff;
+    padding: 32px 24px;
+  `
+);
 
 const Title = styled.h1`
   font-size: 24px;
@@ -166,12 +130,13 @@ const Buttons = styled.div`
 
 interface ButtonProps {
   active: boolean;
+  isChecked: boolean;
 }
 
 const Button = styled.button(
   (props: ButtonProps) => css`
     width: 295px;
-    height: 77px;
+    height: ${props.isChecked ? "99px" : "77px"};
     border-radius: 8px;
     cursor: pointer;
     padding: 0 16px;
@@ -205,6 +170,13 @@ const CategoryPrice = styled.p`
   font-size: 14px;
   line-height: 20px;
   color: #9699aa;
+`;
+
+const Discount = styled.p`
+  font-size: 12px;
+  line-height: 20px;
+  color: #022959;
+  margin-top: -4px;
 `;
 
 const NextStepContainer = styled.div`

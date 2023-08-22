@@ -1,26 +1,39 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import useButtonStore from "../stores/useButtonStore";
 import { useCheckboxStore } from "../stores/useCheckboxStore";
+import { useFormStore } from "../stores/useFormStore";
 
 interface FinishProps {
-  pathname: string;
   isChecked: boolean;
 }
 
 function Finish(props: FinishProps) {
-  const { pathname, isChecked } = props;
+  const { isChecked } = props;
 
-  const selectedButton = useButtonStore((state) => state.selectedButton);
-  const infoAboutCheckboxes = useCheckboxStore(
-    (state) => state.infoAboutCheckboxes
-  );
-  const monthlyPrice = useButtonStore(
-    (state) => state.selectedButtonMonthlyPrice
-  );
-  const yearlyPrice = useButtonStore(
-    (state) => state.selectedButtonYearlyPrice
-  );
+  const navigate = useNavigate();
+
+  const {
+    selectedButton,
+    setSelectedButton,
+    selectedButtonMonthlyPrice: monthlyPrice,
+    selectedButtonYearlyPrice: yearlyPrice,
+  } = useButtonStore();
+
+  const { infoAboutCheckboxes, deleteFromBase: deleteInfoFromArray } =
+    useCheckboxStore();
+
+  const { user, updateUser } = useFormStore();
+
+  const clearValues = () => {
+    setSelectedButton("");
+    deleteInfoFromArray();
+    updateUser({ ...user, name: "", email: "", number: "" });
+
+    setTimeout(() => {
+      navigate("/");
+    }, 5000);
+  };
 
   interface SumPricesType {
     monthlyPrice: number;
@@ -66,9 +79,9 @@ function Finish(props: FinishProps) {
           </ChosenPlan>
           <Line></Line>
           <Addons>
-            {infoAboutCheckboxes.map((item) => {
+            {infoAboutCheckboxes.map((item, index) => {
               return (
-                <Addon>
+                <Addon key={index}>
                   <AddonName>{item.name}</AddonName>
                   <AddonPrice>
                     ${isChecked ? item.yearlyPrice : item.monthlyPrice}/
@@ -93,11 +106,7 @@ function Finish(props: FinishProps) {
       <NextStepContainer>
         <BackLink to="/addons">Go Back</BackLink>
         <NextLink to="/thankyou">
-          {pathname === "/finish" ? (
-            <ConfirmButton>Confirm</ConfirmButton>
-          ) : (
-            <NextButton>Next Step</NextButton>
-          )}
+          <ConfirmButton onClick={clearValues}>Confirm</ConfirmButton>
         </NextLink>
       </NextStepContainer>
     </Container>
@@ -253,18 +262,14 @@ const NextLink = styled(Link)`
   right: 16px;
 `;
 
-const NextButton = styled.button`
+const ConfirmButton = styled.button`
   width: 97px;
   height: 40px;
   border-radius: 4px;
   border: none;
   cursor: pointer;
-  background: #022959;
+  background: #483eff;
   font-size: 14px;
   font-weight: 500;
   color: #ffffff;
-`;
-
-const ConfirmButton = styled(NextButton)`
-  background: #483eff;
 `;

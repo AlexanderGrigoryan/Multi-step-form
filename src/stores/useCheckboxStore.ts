@@ -11,6 +11,7 @@ interface CheckboxState {
   infoAboutCheckboxes: CheckboxInfo[]
   toggleCheckbox: (index: number) => void;
   addToBase: (index: number, name: string, monthlyPrice: number, yearlyPrice: number) => void
+  deleteFromBase: () => void
 }
 
 export const useCheckboxStore = create<CheckboxState>((set) => ({
@@ -29,14 +30,20 @@ export const useCheckboxStore = create<CheckboxState>((set) => ({
       const existingIndex = updatedInfoCheckboxes.findIndex((item) => item && item.name === name);
 
       if (existingIndex !== -1) {
-        updatedInfoCheckboxes.splice(existingIndex, 1); // Remove the item
+        updatedInfoCheckboxes.splice(existingIndex, 1);
       } else {
-        updatedInfoCheckboxes.push({ name, monthlyPrice, yearlyPrice }); // Add the item
+        updatedInfoCheckboxes.push({ name, monthlyPrice, yearlyPrice }); 
       }
 
       return { infoAboutCheckboxes: updatedInfoCheckboxes };
     });
   },
+  deleteFromBase: () => {
+    set(() => ({
+      infoAboutCheckboxes: [],
+      checkboxes: [false, false, false] 
+    }));
+  }
 }));
 
 

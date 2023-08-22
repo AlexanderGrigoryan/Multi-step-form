@@ -1,43 +1,23 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import styled, { css } from "styled-components";
 import { useCheckboxStore } from "../stores/useCheckboxStore";
 import addonsList from "../data/addonsList.json";
-
-// const addonsList = [
-//   {
-//     name: "Online service",
-//     description: "Access to multiplayer games",
-//     price: {
-//       month: 1,
-//       year: 10,
-//     },
-//   },
-//   {
-//     name: "Larger storage",
-//     description: "Extra 1TB of cloud save",
-//     price: {
-//       month: 2,
-//       year: 20,
-//     },
-//   },
-//   {
-//     name: "Customizable profile",
-//     description: "Custom theme on your profile",
-//     price: {
-//       month: 2,
-//       year: 20,
-//     },
-//   },
-// ];
+import { useFormStore } from "../stores/useFormStore";
+import useButtonStore from "../stores/useButtonStore";
+import { FieldErrors } from "react-hook-form";
+import { FormTypes } from "../types";
 
 interface AddonsProps {
   isChecked: boolean;
+  errors: FieldErrors<FormTypes>;
 }
 
 function Addons(props: AddonsProps) {
-  const { isChecked } = props;
-
+  const { isChecked, errors } = props;
+  const navigate = useNavigate();
   const { checkboxes, toggleCheckbox, addToBase } = useCheckboxStore();
+  const planButton = useButtonStore((state) => state.selectedButton);
+  const user = useFormStore((state) => state.user);
 
   const addonOnChange: (
     index: number,
@@ -52,6 +32,25 @@ function Addons(props: AddonsProps) {
   ) => {
     toggleCheckbox(index);
     addToBase(index, name, monthlyPrice, yearlyPrice);
+  };
+
+  const goToFinishPage = () => {
+    if (
+      (errors.name && errors.email && errors.number) ||
+      (user.name.length <= 0 &&
+        user.email.length <= 0 &&
+        user.number.length <= 0)
+    ) {
+      alert("Please fill personal information");
+    } else if (
+      planButton === "Arcade" ||
+      planButton === "Advanced" ||
+      planButton === "Pro"
+    ) {
+      navigate("/finish");
+    } else {
+      alert("Please choose you plan to proceed");
+    }
   };
 
   return (
@@ -93,9 +92,7 @@ function Addons(props: AddonsProps) {
       </Content>
       <NextStepContainer>
         <BackLink to="/plan">Go Back</BackLink>
-        <NextLink to="/finish">
-          <NextButton>Next Step</NextButton>
-        </NextLink>
+        <NextButton onClick={goToFinishPage}>Next Step</NextButton>
       </NextStepContainer>
     </Container>
   );
@@ -144,7 +141,7 @@ interface AddonProps {
   checkboxClicked: boolean;
 }
 
-const Addon = styled.div(
+const Addon = styled.label(
   (props: AddonProps) => css`
     width: 295px;
     height: 62px;
@@ -217,12 +214,6 @@ const BackLink = styled(Link)`
   text-decoration: none;
 `;
 
-const NextLink = styled(Link)`
-  position: absolute;
-  top: 16px;
-  right: 16px;
-`;
-
 const NextButton = styled.button`
   width: 97px;
   height: 40px;
@@ -233,4 +224,7 @@ const NextButton = styled.button`
   font-size: 14px;
   font-weight: 500;
   color: #ffffff;
+  position: absolute;
+  top: 16px;
+  right: 16px;
 `;

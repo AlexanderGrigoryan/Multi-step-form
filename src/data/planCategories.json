@@ -1,0 +1,26 @@
+[
+    {
+      "categoryName": "Arcade",
+      "price": {
+        "month": 9,
+        "year": 90
+      },
+      "image": "/assets/icon-arcade.svg"
+    },
+    {
+      "categoryName": "Advanced",
+      "price": {
+        "month": 12,
+        "year": 120
+      },
+      "image": "/assets/icon-advanced.svg"
+    },
+    {
+      "categoryName": "Pro",
+      "price": {
+        "month": 15,
+        "year": 150
+      },
+      "image": "/assets/icon-pro.svg"
+    }
+  ]
