@@ -5,7 +5,7 @@ import {
   UseFormRegister,
   UseFormSetValue,
 } from "react-hook-form";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { FormTypes } from "../types";
@@ -45,6 +45,7 @@ function PersonalInfo(props: PersonalInfoProps) {
           <Name>
             <Label htmlFor="name">Name</Label>
             <NameInput
+              errors={errors}
               type="text"
               id="name"
               placeholder="e.g. Stephen King"
@@ -59,6 +60,7 @@ function PersonalInfo(props: PersonalInfoProps) {
           <Email>
             <Label htmlFor="email">Email Address</Label>
             <EmailInput
+              errors={errors}
               type="email"
               id="email"
               placeholder="e.g. stephenking@lorem.com"
@@ -73,6 +75,7 @@ function PersonalInfo(props: PersonalInfoProps) {
           <PhoneNumber>
             <Label htmlFor="number">Phone Number</Label>
             <PhoneNumberInput
+              errors={errors}
               type="text"
               id="number"
               placeholder="e.g. +1 234 567 890"
@@ -103,6 +106,11 @@ const Container = styled.div`
   flex-direction: column;
   align-items: center;
   position: relative;
+
+  @media screen and (min-width: 1024px) {
+    align-self: baseline;
+    padding-top: 40px;
+  }
 `;
 
 const Content = styled.div`
@@ -113,6 +121,12 @@ const Content = styled.div`
   box-shadow: 0px 25px 40px -20px rgba(0, 0, 0, 0.1);
   background: #ffffff;
   padding: 32px 24px;
+
+  @media screen and (min-width: 1024px) {
+    width: 450px;
+    height: 372px;
+    padding: 0;
+  }
 `;
 
 const Title = styled.h1`
@@ -120,6 +134,11 @@ const Title = styled.h1`
   font-weight: 700;
   margin-bottom: 9px;
   color: #022959;
+
+  @media screen and (min-width: 1024px) {
+    font-size: 32px;
+    margin-bottom: 11px;
+  }
 `;
 
 const Text = styled.p`
@@ -134,11 +153,20 @@ const FormContainer = styled.form`
   flex-direction: column;
   row-gap: 16px;
   margin-top: 22px;
+
+  @media screen and (min-width: 1024px) {
+    margin-top: 35px;
+    row-gap: 24px;
+  }
 `;
 
 const Label = styled.label`
   font-size: 12px;
   color: #022959;
+
+  @media screen and (min-width: 1024px) {
+    font-size: 14px;
+  }
 `;
 
 const Name = styled.div`
@@ -148,32 +176,75 @@ const Name = styled.div`
   position: relative;
 `;
 
-const NameInput = styled.input`
-  min-width: 295px;
-  width: 100%;
-  height: 40px;
-  border-radius: 4px;
-  padding-left: 16px;
-  border: 1px solid #d6d9e6;
-  background: #ffffff;
-`;
+interface InputProps {
+  errors: FieldErrors<FormTypes>;
+}
+
+const NameInput = styled.input(
+  (props: InputProps) => css`
+    min-width: 295px;
+    width: 100%;
+    height: 40px;
+    border-radius: 4px;
+    padding-left: 16px;
+    border: ${props.errors.name ? "1px solid  #EE374A" : "1px solid #d6d9e6"};
+    background: #ffffff;
+    font-size: 15px;
+    font-weight: 500;
+    color: #022959;
+
+    &::placeholder {
+      font-size: 15px;
+      font-weight: 500;
+      color: #9699aa;
+    }
+
+    &:focus {
+      outline: ${props.errors.name
+        ? "1px solid  #EE374A"
+        : "1px solid #483eff;"};
+    }
+
+    @media screen and (min-width: 1024px) {
+      height: 48px;
+    }
+  `
+);
 
 const Email = styled(Name)``;
 
-const EmailInput = styled(NameInput)``;
+const EmailInput = styled(NameInput)(
+  (props: InputProps) => css`
+    border: ${props.errors.email ? "1px solid  #EE374A" : "1px solid #d6d9e6"};
+    &:focus {
+      outline: ${props.errors.email
+        ? "1px solid  #EE374A"
+        : "1px solid #483eff;"};
+    }
+  `
+);
 
 const PhoneNumber = styled(Name)``;
 
-const PhoneNumberInput = styled(NameInput)`
-  -webkit-appearance: none;
-  -moz-appearance: textfield;
-  appearance: none;
+const PhoneNumberInput = styled(NameInput)(
+  (props: InputProps) => css`
+    border: ${props.errors.number ? "1px solid  #EE374A" : "1px solid #d6d9e6"};
+    -webkit-appearance: none;
+    -moz-appearance: textfield;
+    appearance: none;
 
-  &::-webkit-inner-spin-button,
-  &::-webkit-outer-spin-button {
-    display: none;
-  }
-`;
+    &::-webkit-inner-spin-button,
+    &::-webkit-outer-spin-button {
+      display: none;
+    }
+
+    &:focus {
+      outline: ${props.errors.number
+        ? "1px solid  #EE374A"
+        : "1px solid #483eff;"};
+    }
+  `
+);
 
 const ErrorMessage = styled.p`
   font-size: 12px;
@@ -182,6 +253,10 @@ const ErrorMessage = styled.p`
   position: absolute;
   top: -2px;
   right: 0;
+
+  @media screen and (min-width: 1024px) {
+    font-size: 14px;
+  }
 `;
 
 const NextStepContainer = styled.div`
@@ -197,6 +272,13 @@ const NextStepContainer = styled.div`
   position: absolute;
   bottom: 0;
   left: -16px;
+
+  @media screen and (min-width: 1024px) {
+    position: relative;
+    left: 16px;
+    padding: 0;
+    margin-top: 85px;
+  }
 `;
 
 const BackLink = styled(Link)`
@@ -219,4 +301,15 @@ const NextButton = styled.button`
   top: 16px;
   right: 16px;
   color: #ffffff;
+  transition: all ease 0.3s;
+
+  @media screen and (min-width: 1024px) {
+    width: 123px;
+    height: 48px;
+    border-radius: 8px;
+  }
+
+  &:hover {
+    background: #164a8a;
+  }
 `;

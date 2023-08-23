@@ -86,6 +86,16 @@ const MainContainer = styled.main`
   display: flex;
   align-items: center;
   flex-direction: column;
+
+  @media screen and (min-width: 1024px) {
+    flex-direction: row;
+    width: 960px;
+    height: 600px;
+    border-radius: 15px;
+    background: #ffffff;
+    box-shadow: 0px 25px 40px -20px rgba(0, 0, 0, 0.1);
+    padding: 16px;
+  }
 `;
 
 const Content = styled.div`
@@ -95,4 +105,10 @@ const Content = styled.div`
   min-width: 375px;
   width: 100%;
   height: 695px;
+
+  @media screen and (min-width: 1024px) {
+    margin: 0;
+    width: 100%;
+    height: 100%;
+  }
 `;

@@ -1,6 +1,7 @@
 import React from "react";
 import styled, { css } from "styled-components";
 import MobileBackground from "../assets/bg-sidebar-mobile.svg";
+import DesktopBackground from "../assets/bg-sidebar-desktop.svg";
 import { useNavigate } from "react-router-dom";
 import { FieldErrors } from "react-hook-form";
 import { FormTypes } from "../types";
@@ -100,6 +101,13 @@ const Container = styled.div`
   display: flex;
   justify-content: center;
   padding-top: 32px;
+
+  @media screen and (min-width: 1024px) {
+    background-image: url(${DesktopBackground});
+    height: 100%;
+    min-width: 274px;
+    max-width: 274px;
+  }
 `;
 
 const Buttons = styled.div`

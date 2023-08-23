@@ -12,6 +12,13 @@ body {
     min-height: 100vh;
     font-family: 'Ubuntu', sans-serif;
     background: #EFF5FF;
+
+    @media screen and (min-width: 1024px) {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+     
+    }
 }
 `
 
