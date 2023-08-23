@@ -14,13 +14,13 @@ interface AddonsProps {
 
 function Addons(props: AddonsProps) {
   const { isChecked, errors } = props;
-  
+
   const { checkboxes, toggleCheckbox, addToBase } = useCheckboxStore();
   const planButton = useButtonStore((state) => state.selectedButton);
   const user = useFormStore((state) => state.user);
-  
+
   const navigate = useNavigate();
-  
+
   const addonOnChange: (
     index: number,
     name: string,
@@ -246,7 +246,6 @@ const NextStepContainer = styled.div`
   bottom: 0;
 
   @media screen and (min-width: 1024px) {
-    position: relative;
     padding: 16px 0;
     left: 16px;
     margin-top: 121px;

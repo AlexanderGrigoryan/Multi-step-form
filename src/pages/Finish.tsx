@@ -1,5 +1,5 @@
-import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import { Link, useNavigate } from "react-router-dom";
 import useButtonStore from "../stores/useButtonStore";
 import { useCheckboxStore } from "../stores/useCheckboxStore";
 import { useFormStore } from "../stores/useFormStore";
@@ -120,6 +120,10 @@ const Container = styled.div`
   flex-direction: column;
   align-items: center;
   position: relative;
+
+  @media screen and (min-width: 1024px) {
+    width: 450px;
+  }
 `;
 
 const Content = styled.div`
@@ -130,6 +134,10 @@ const Content = styled.div`
   box-shadow: 0px 25px 40px -20px rgba(0, 0, 0, 0.1);
   background: #ffffff;
   padding: 32px 24px;
+
+  @media screen and (min-width: 1024px) {
+    padding: 56px 0 0 0;
+  }
 `;
 
 const Title = styled.h1`
@@ -137,6 +145,11 @@ const Title = styled.h1`
   font-weight: 700;
   margin-bottom: 9px;
   color: #022959;
+
+  @media screen and (min-width: 1024px) {
+    font-size: 32px;
+    margin-bottom: 11px;
+  }
 `;
 
 const Text = styled.p`
@@ -152,24 +165,42 @@ const TotalPrice = styled.div`
   row-gap: 12px;
   padding: 16px;
   margin-top: 22px;
+
+  @media screen and (min-width: 1024px) {
+    row-gap: 16px;
+    margin-top: 35px;
+    padding: 16px 24px 24px 24px;
+  }
 `;
 
 const ChosenPlan = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
+
+  @media screen and (min-width: 1024px) {
+    margin-bottom: 8px;
+  }
 `;
 
 const PlanInfo = styled.div`
   display: flex;
   flex-direction: column;
   row-gap: 3px;
+
+  @media screen and (min-width: 1024px) {
+    row-gap: 7px;
+  }
 `;
 
 const PlanName = styled.p`
   font-size: 14px;
   font-weight: 500;
   color: #022959;
+
+  @media screen and (min-width: 1024px) {
+    font-size: 16px;
+  }
 `;
 
 const PlanChange = styled(Link)`
@@ -177,6 +208,11 @@ const PlanChange = styled(Link)`
   line-height: 20px;
   text-decoration: underline;
   color: #9699aa;
+  transition: all ease 0.3s;
+
+  &:hover {
+    color: #483eff;
+  }
 `;
 
 const PlanPrice = styled.p`
@@ -184,6 +220,10 @@ const PlanPrice = styled.p`
   font-weight: 700;
   line-height: 20px;
   color: #022959;
+
+  @media screen and (min-width: 1024px) {
+    font-size: 16px;
+  }
 `;
 
 const Line = styled.div`
@@ -196,6 +236,10 @@ const Addons = styled.div`
   display: flex;
   flex-direction: column;
   row-gap: 12px;
+
+  @media screen and (min-width: 1024px) {
+    row-gap: 16px;
+  }
 `;
 
 const Addon = styled.div`
@@ -221,6 +265,10 @@ const Total = styled.div`
   justify-content: space-between;
   padding: 0 16px;
   margin-top: 24px;
+
+  @media screen and (min-width: 1024px) {
+    padding: 0 24px;
+  }
 `;
 
 const TotalName = styled.p`
@@ -234,6 +282,10 @@ const TotalAmount = styled.p`
   font-weight: 700;
   line-height: 20px;
   color: #483eff;
+
+  @media screen and (min-width: 1024px) {
+    font-size: 20px;
+  }
 `;
 
 const NextStepContainer = styled.div`
@@ -248,6 +300,12 @@ const NextStepContainer = styled.div`
   box-shadow: 0px 25px 40px -20px rgba(0, 0, 0, 0.1);
   position: absolute;
   bottom: 0;
+
+  @media screen and (min-width: 1024px) {
+    padding: 16px 0;
+    left: 16px;
+    margin-top: 121px;
+  }
 `;
 
 const BackLink = styled(Link)`
@@ -255,6 +313,16 @@ const BackLink = styled(Link)`
   font-weight: 500;
   color: #9699aa;
   text-decoration: none;
+  transition: all ease 0.3s;
+
+  @media screen and (min-width: 1024px) {
+    margin: -16px;
+    font-size: 16px;
+  }
+
+  &:hover {
+    color: #022959;
+  }
 `;
 
 const NextLink = styled(Link)`
@@ -273,4 +341,16 @@ const ConfirmButton = styled.button`
   font-size: 14px;
   font-weight: 500;
   color: #ffffff;
+  transition: all ease 0.3s;
+
+  @media screen and (min-width: 1024px) {
+    width: 123px;
+    height: 48px;
+    border-radius: 8px;
+    font-size: 16px;
+  }
+
+  &:hover {
+    background: #928cff;
+  }
 `;

@@ -232,7 +232,6 @@ const NextStepContainer = styled.div`
   bottom: 0;
 
   @media screen and (min-width: 1024px) {
-    position: relative;
     padding: 16px 0;
     left: 16px;
   }
