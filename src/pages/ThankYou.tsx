@@ -24,6 +24,11 @@ const Container = styled.div`
   flex-direction: column;
   align-items: center;
   position: relative;
+
+  @media screen and (min-width: 1024px) {
+    width: 450px;
+    justify-content: center;
+  }
 `;
 
 const Content = styled.div`
@@ -38,11 +43,20 @@ const Content = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
+
+  @media screen and (min-width: 1024px) {
+    padding: 0;
+  }
 `;
 
 const ConfirmImage = styled.img`
   width: 56px;
   height: 56px;
+
+  @media screen and (min-width: 1024px) {
+    width: 80px;
+    height: 80px;
+  }
 `;
 
 const Title = styled.h2`
@@ -50,6 +64,11 @@ const Title = styled.h2`
   font-weight: 700;
   margin: 24px 0 9px;
   color: #022959;
+
+  @media screen and (min-width: 1024px) {
+    font-size: 32px;
+    margin: 32px 0 14px;
+  }
 `;
 
 const Text = styled.p`
