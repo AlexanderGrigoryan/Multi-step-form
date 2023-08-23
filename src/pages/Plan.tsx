@@ -1,8 +1,8 @@
-import { Link } from "react-router-dom";
 import styled, { css } from "styled-components";
+import planCategories from "../data/planCategories.json";
 import Toggle from "../components/Toggle";
 import useButtonStore from "../stores/useButtonStore";
-import planCategories from "../data/planCategories.json";
+import { Link } from "react-router-dom";
 
 interface PlanProps {
   isChecked: boolean;
@@ -83,6 +83,10 @@ const Container = styled.div`
   flex-direction: column;
   align-items: center;
   position: relative;
+
+  @media screen and (min-width: 1024px) {
+    max-width: 450px;
+  }
 `;
 
 interface ContentProps {
@@ -98,6 +102,10 @@ const Content = styled.div(
     box-shadow: 0px 25px 40px -20px rgba(0, 0, 0, 0.1);
     background: #ffffff;
     padding: 32px 24px;
+
+    @media screen and (min-width: 1024px) {
+      padding: 56px 0 0 0;
+    }
   `
 );
 
@@ -106,6 +114,11 @@ const Title = styled.h1`
   font-weight: 700;
   margin-bottom: 9px;
   color: #022959;
+
+  @media screen and (min-width: 1024px) {
+    font-size: 32px;
+    margin-bottom: 11px;
+  }
 `;
 
 const Text = styled.p`
@@ -120,6 +133,10 @@ const ChoosePlan = styled.div`
   flex-direction: column;
   align-items: center;
   row-gap: 24px;
+
+  @media screen and (min-width: 1024px) {
+    row-gap: 32px;
+  }
 `;
 
 const Buttons = styled.div`
@@ -127,6 +144,12 @@ const Buttons = styled.div`
   flex-direction: column;
   row-gap: 12px;
   margin-top: 22px;
+
+  @media screen and (min-width: 1024px) {
+    flex-direction: row;
+    column-gap: 18px;
+    margin-top: 35px;
+  }
 `;
 
 interface ButtonProps {
@@ -147,6 +170,16 @@ const Button = styled.button(
     column-gap: 14px;
     border: ${props.active ? "1px solid #483EFF" : "1px solid #d6d9e6"};
     background: #ffffff;
+
+    @media screen and (min-width: 1024px) {
+      min-width: 138px;
+      max-width: 138px;
+      height: 183px;
+      flex-direction: column;
+      row-gap: 39px;
+      align-items: baseline;
+      padding: 20px 16px;
+    }
   `
 );
 
@@ -179,6 +212,10 @@ const Discount = styled.p`
   line-height: 20px;
   color: #022959;
   margin-top: -4px;
+
+  @media screen and (min-width: 1024px) {
+    margin-top: 0;
+  }
 `;
 
 const NextStepContainer = styled.div`
@@ -193,6 +230,12 @@ const NextStepContainer = styled.div`
   box-shadow: 0px 25px 40px -20px rgba(0, 0, 0, 0.1);
   position: absolute;
   bottom: 0;
+
+  @media screen and (min-width: 1024px) {
+    position: relative;
+    padding: 16px 0;
+    left: 16px;
+  }
 `;
 
 const BackLink = styled(Link)`
@@ -200,6 +243,16 @@ const BackLink = styled(Link)`
   font-weight: 500;
   color: #9699aa;
   text-decoration: none;
+  transition: all ease 0.3s;
+
+  @media screen and (min-width: 1024px) {
+    margin: -16px;
+    font-size: 16px;
+  }
+
+  &:hover {
+    color: #022959;
+  }
 `;
 
 const NextLink = styled(Link)`
@@ -218,4 +271,16 @@ const NextButton = styled.button`
   font-size: 14px;
   font-weight: 500;
   color: #ffffff;
+  transition: all ease 0.3;
+
+  @media screen and (min-width: 1024px) {
+    width: 123px;
+    height: 48px;
+    border-radius: 8px;
+    font-size: 16px;
+  }
+
+  &:hover {
+    background: #164a8a;
+  }
 `;

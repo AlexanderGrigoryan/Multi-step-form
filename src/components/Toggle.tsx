@@ -34,7 +34,8 @@ function Toggle(props: ToggleProps) {
 export default Toggle;
 
 const Container = styled.div`
-  width: 295px;
+  min-width: 295px;
+  width: 100%;
   height: 48px;
   border-radius: 10px;
   background: #ffffff;

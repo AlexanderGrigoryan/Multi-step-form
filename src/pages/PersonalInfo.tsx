@@ -1,3 +1,9 @@
+import styled, { css } from "styled-components";
+import { FormTypes } from "../types";
+import { Link } from "react-router-dom";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { useFormStore } from "../stores/useFormStore";
 import {
   FieldErrors,
   SubmitHandler,
@@ -5,12 +11,6 @@ import {
   UseFormRegister,
   UseFormSetValue,
 } from "react-hook-form";
-import styled, { css } from "styled-components";
-import { Link } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
-import { FormTypes } from "../types";
-import { useEffect } from "react";
-import { useFormStore } from "../stores/useFormStore";
 
 interface PersonalInfoProps {
   pathname: string;
@@ -307,6 +307,7 @@ const NextButton = styled.button`
     width: 123px;
     height: 48px;
     border-radius: 8px;
+    font-size: 16px;
   }
 
   &:hover {
