@@ -1,27 +1,80 @@
-# React + TypeScript + Vite
+# Multi-step form
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+### Its multi-step form with validation and much more.
 
-Currently, two official plugins are available:
+### Table of Contents
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- [Prerequisites](#Prerequisites)
+- [Tech Stack](#Tech-Stack)
+- [Getting Started](#Getting-Started)
+- [Project Structure](#Project-Structure)
+- [Deployment](#Deployment)
+- [Resources](#Resources)
 
-## Expanding the ESLint configuration
+#
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+### Prerequisites
 
-- Configure the top-level `parserOptions` property like this:
+- <img src="readme/nodejs.png" width="25" style="top: 8px" /> _Node JS @18.X and up_
+- <img src="readme/npm.png" width="25" style="top: 8px" /> _npm @9 and up_
+- <img src="readme/typescript.png" width="25" style="top: 8px" /> _typescript @5 and up_
 
-```js
-   parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-   },
+#
+
+### Tech Stack
+
+- <img src="readme/react.png" width="25" style="top: 8px" /> _React @ 18.2.0 - front-end framework_
+- <img src="readme/styled-components.png" width="25" style="top: 8px"/> _Styled-components @ 5.3.8 - for styles_
+- <img src="readme/react-router.png" width="25" style="top: 8px" /> _React-router @6.14.2 - library for routing_
+- <img src="readme/react-hook-form.png" width="25" style="top: 8px" /> _React-hook-form @7.45.4 - library for forms_
+- <img src="readme/zustand.png" width="25" style="top: 8px" /> _Zustand @4.4.1 - state management system_
+- <img src="readme/react-helmet.jpeg" width="25" style="top: 8px" /> _React-helmet @1.3.0 - library for adding information in head_
+- <img src="readme/yup.jpeg" width="25" style="top: 8px" /> _Yup @1.2.0 - library for form validation_
+
+#
+
+### Getting Started
+
+1. First of all you need to clone app repository from github:
+
+```
+git clone https://github.com/AlexanderGrigoryan/Multi-step-form.git
 ```
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+2. Next step requires install all the dependencies.
+
+```
+npm install
+```
+
+#
+
+### Project Structure
+
+```
+|--- src
+|   |--- assets # project images
+|   |--- components # reusable components
+|   |--- data # json datas
+|   |--- pages # all page components
+|   |--- stores # all zustand stores
+|   |--- App.tsx # export all components
+```
+
+#
+
+### Deployment
+
+Before every deployment you need to create build file.
+
+```
+npm run build
+```
+
+after this you can use this file to deploy project on server.
+
+#
+
+### Resources
+
+- [figma](https://www.figma.com/file/3gmtUBDXz8zQG2FsiVSkad/multi-step-form?type=design&node-id=0-1459&mode=design&t=nD8O4JuXAeGRtglw-0).
