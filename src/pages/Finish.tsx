@@ -3,13 +3,16 @@ import { Link, useNavigate } from "react-router-dom";
 import useButtonStore from "../stores/useButtonStore";
 import { useCheckboxStore } from "../stores/useCheckboxStore";
 import { useFormStore } from "../stores/useFormStore";
+import { FormTypes } from "../types";
+import { FieldErrors } from "react-hook-form";
 
 interface FinishProps {
   isChecked: boolean;
+  errors: FieldErrors<FormTypes>;
 }
 
 function Finish(props: FinishProps) {
-  const { isChecked } = props;
+  const { isChecked, errors } = props;
 
   const navigate = useNavigate();
 
@@ -26,13 +29,23 @@ function Finish(props: FinishProps) {
   const { user, updateUser } = useFormStore();
 
   const clearValues = () => {
-    setSelectedButton("");
-    deleteInfoFromArray();
-    updateUser({ ...user, name: "", email: "", number: "" });
-
-    setTimeout(() => {
+    if (
+      (errors.name && errors.email && errors.number) ||
+      (user.name.length <= 0 &&
+        user.email.length <= 0 &&
+        user.number.length <= 0)
+    ) {
+      alert("Please fill personal information and select your plan to proceed");
       navigate("/");
-    }, 5000);
+    } else {
+      setSelectedButton("");
+      deleteInfoFromArray();
+      updateUser({ ...user, name: "", email: "", number: "" });
+      navigate("/thankyou");
+      setTimeout(() => {
+        navigate("/");
+      }, 5000);
+    }
   };
 
   interface SumPricesType {
@@ -105,9 +118,7 @@ function Finish(props: FinishProps) {
       </Content>
       <NextStepContainer>
         <BackLink to="/addons">Go Back</BackLink>
-        <NextLink to="/thankyou">
-          <ConfirmButton onClick={clearValues}>Confirm</ConfirmButton>
-        </NextLink>
+        <ConfirmButton onClick={clearValues}>Confirm</ConfirmButton>
       </NextStepContainer>
     </Container>
   );
@@ -325,12 +336,6 @@ const BackLink = styled(Link)`
   }
 `;
 
-const NextLink = styled(Link)`
-  position: absolute;
-  top: 16px;
-  right: 16px;
-`;
-
 const ConfirmButton = styled.button`
   width: 97px;
   height: 40px;
@@ -341,6 +346,9 @@ const ConfirmButton = styled.button`
   font-size: 14px;
   font-weight: 500;
   color: #ffffff;
+  position: absolute;
+  top: 16px;
+  right: 16px;
   transition: all ease 0.3s;
 
   @media screen and (min-width: 1024px) {

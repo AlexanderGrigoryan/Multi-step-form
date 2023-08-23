@@ -46,44 +46,68 @@ function Pagination(props: PaginationProps) {
   return (
     <Container>
       <Buttons>
-        <StyledButton
-          activeButton={activeButton && pathname === "/"}
-          pathname={pathname}
-          onClick={() => {
-            setActiveButton(true);
-            navigate("/");
-          }}
-        >
-          1
-        </StyledButton>
-        <StyledButton
-          type="submit"
-          activeButton={activeButton && pathname === "/plan"}
-          pathname={pathname}
-          onClick={() => {
-            setActiveButton(true);
-            navigate("/plan");
-          }}
-        >
-          2
-        </StyledButton>
-        <StyledButton
-          activeButton={activeButton && pathname === "/addons"}
-          pathname={pathname}
-          onClick={() => {
-            setActiveButton(true);
-            navigate("/addons");
-          }}
-        >
-          3
-        </StyledButton>
-        <StyledButton
-          activeButton={activeButton && pathname === "/finish"}
-          pathname={pathname}
-          onClick={goToFinishPage}
-        >
-          4
-        </StyledButton>
+        <ButtonContainer>
+          <StyledButton
+            activeButton={activeButton && pathname === "/"}
+            pathname={pathname}
+            onClick={() => {
+              setActiveButton(true);
+              navigate("/");
+            }}
+          >
+            1
+          </StyledButton>
+          <ButtonInfo>
+            <Step>Step 1</Step>
+            <StepName>Your Info</StepName>
+          </ButtonInfo>
+        </ButtonContainer>
+        <ButtonContainer>
+          <StyledButton
+            type="submit"
+            activeButton={activeButton && pathname === "/plan"}
+            pathname={pathname}
+            onClick={() => {
+              setActiveButton(true);
+              navigate("/plan");
+            }}
+          >
+            2
+          </StyledButton>
+          <ButtonInfo>
+            <Step>Step 2</Step>
+            <StepName>Select Plan</StepName>
+          </ButtonInfo>
+        </ButtonContainer>
+        <ButtonContainer>
+          <StyledButton
+            activeButton={activeButton && pathname === "/addons"}
+            pathname={pathname}
+            onClick={() => {
+              setActiveButton(true);
+              navigate("/addons");
+            }}
+          >
+            3
+          </StyledButton>
+          <ButtonInfo>
+            <Step>Step 3</Step>
+            <StepName>Add-ons</StepName>
+          </ButtonInfo>
+        </ButtonContainer>
+        <ButtonContainer>
+          <StyledButton
+            activeButton={activeButton && pathname === "/finish"}
+            pathname={pathname}
+            onClick={goToFinishPage}
+          >
+            4
+          </StyledButton>
+          <ButtonInfo>
+            <Step>Step 4</Step>
+            <StepName>Summary</StepName>
+          </ButtonInfo>
+        </ButtonContainer>
       </Buttons>
     </Container>
   );
@@ -115,6 +139,18 @@ const Buttons = styled.div`
   height: 33px;
   display: flex;
   column-gap: 16px;
+
+  @media screen and (min-width: 1024px) {
+    flex-direction: column;
+    row-gap: 32px;
+    width: 153px;
+    height: 228px;
+  }
+`;
+
+const ButtonContainer = styled.div`
+  display: flex;
+  column-gap: 16px;
 `;
 
 interface StyledButtonProps {
@@ -140,3 +176,27 @@ const StyledButton = styled.button(
     background: ${props.activeButton ? "#BEE2FD" : "inherit"};
   `
 );
+
+const ButtonInfo = styled.div`
+  display: none;
+
+  @media screen and (min-width: 1024px) {
+    display: flex;
+    flex-direction: column;
+    row-gap: 4px;
+  }
+`;
+
+const Step = styled.p`
+  font-size: 12px;
+  text-transform: uppercase;
+  color: #abbcff;
+`;
+
+const StepName = styled.p`
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: #ffffff;
+`;

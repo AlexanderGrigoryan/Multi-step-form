@@ -43,7 +43,7 @@ function Addons(props: AddonsProps) {
         user.email.length <= 0 &&
         user.number.length <= 0)
     ) {
-      alert("Please fill personal information");
+      alert("Please fill personal information to proceed");
     } else if (
       planButton === "Arcade" ||
       planButton === "Advanced" ||
@@ -51,7 +51,7 @@ function Addons(props: AddonsProps) {
     ) {
       navigate("/finish");
     } else {
-      alert("Please choose you plan to proceed");
+      alert("Please select your plan to proceed");
     }
   };
 
