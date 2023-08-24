@@ -33,6 +33,7 @@ export const useCheckboxStore = create<CheckboxState>((set) => ({
         updatedInfoCheckboxes.splice(existingIndex, 1);
       } else {
         updatedInfoCheckboxes.push({ name, monthlyPrice, yearlyPrice }); 
+        console.log(index)
       }
 
       return { infoAboutCheckboxes: updatedInfoCheckboxes };
